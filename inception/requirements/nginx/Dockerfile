@@ -23,4 +23,4 @@ RUN sed -i "s#/path/to/#$CERTS_PATH#g" /etc/nginx/nginx.conf \
 
 EXPOSE 443
 
-CMD ["./script.sh"]
+CMD ["nginx ", "-g", "daemon off;"]

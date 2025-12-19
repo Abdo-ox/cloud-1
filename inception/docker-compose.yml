@@ -15,6 +15,7 @@ services:
       - wordpress:/var/www/html
     ports:
       - 443:443
+    restart: unless-stopped
     networks:
       - net
   
@@ -27,6 +28,7 @@ services:
       - net
     volumes:
       - mariadb:/var/lib/mysql
+    restart: unless-stopped
 
   wordpress:
     container_name: wordpress
@@ -39,6 +41,7 @@ services:
       - net
     depends_on:
       - mariadb
+    restart: unless-stopped
 
 volumes:
   wordpress:
