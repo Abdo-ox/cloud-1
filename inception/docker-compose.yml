@@ -21,7 +21,13 @@ services:
   
   mariadb:
     container_name: mariadb
-    build: ./requirements/mariadb
+    build: 
+      context: ./requirements/mariadb
+      args:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        SQL_NAME: ${SQL_NAME}
+        SQL_USER: ${SQL_USER}
+        SQL_PASSWORD: ${SQL_PASSWORD}
     env_file:
       - .env
     networks:
@@ -32,7 +38,23 @@ services:
 
   wordpress:
     container_name: wordpress
-    build: ./requirements/wordpress
+    build: 
+      context: ./requirements/wordpress
+      args:
+        WP_PATH: ${WP_PATH}
+        WP_LANG: ${WP_LANG}
+        SQL_NAME: ${SQL_NAME}
+        SQL_USER: ${SQL_USER}
+        SQL_PASSWORD: ${SQL_PASSWORD}
+        SQL_HOST: ${SQL_HOST}
+        DOMAIN_NAME: ${DOMAIN_NAME}
+        WP_TITLE: ${WP_TITLE}
+        WP_ADMIN_USER: ${WP_ADMIN_USER}
+        WP_ADMIN_PASS: ${WP_ADMIN_PASS}
+        WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+        WP_USERNAME: ${WP_USERNAME}
+        WP_EMAIL: ${WP_EMAIL}
+        WP_USERPASS: ${WP_USERPASS}
     volumes:
       - wordpress:/var/www/html
     env_file:
