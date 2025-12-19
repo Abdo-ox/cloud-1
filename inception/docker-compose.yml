@@ -3,7 +3,12 @@ services:
     depends_on:
       - wordpress
     container_name: nginx
-    build: ./requirements/nginx
+    build: 
+      context: ./requirements/nginx
+      args:
+        DOMAIN_NAME: ${DOMAIN_NAME}
+        CERTS_PATH: ${CERTS_PATH}
+
     env_file:
       - .env
     volumes:
@@ -39,11 +44,6 @@ volumes:
   wordpress:
 
   mariadb:
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: './requirements/mariadb/data'
-
+  
 networks:
   net:
