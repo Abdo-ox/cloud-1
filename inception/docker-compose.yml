@@ -8,6 +8,7 @@ services:
       args:
         DOMAIN_NAME: ${DOMAIN_NAME}
         CERTS_PATH: ${CERTS_PATH}
+        MY_ADMIN_URL: ${MY_ADMIN_URL}
 
     env_file:
       - .env
@@ -64,10 +65,22 @@ services:
     depends_on:
       - mariadb
     restart: unless-stopped
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: ${SQL_HOST}
+      PMA_PORT: ${SQL_PORT}
+      PMA_ABSOLUTE_URI: "/myadmin/"
+    depends_on:
+      - mariadb
+    networks:
+      - net
 
 volumes:
   wordpress:
-
   mariadb:
   
 networks:
