@@ -1,34 +1,33 @@
 services:
-  nginx:
-    depends_on:
-      - wordpress
-    container_name: nginx
-    build: 
-      context: ./requirements/nginx
-      args:
-        DOMAIN_NAME: ${DOMAIN_NAME}
-        CERTS_PATH: ${CERTS_PATH}
-        MY_ADMIN_URL: ${MY_ADMIN_URL}
+  # nginx:
+  #   depends_on:
+  #     - wordpress
+  #   container_name: nginx
+  #   build: 
+  #     context: ./requirements/nginx
+  #     args:
+  #       DOMAIN_NAME: ${DOMAIN_NAME}
+  #       CERTS_PATH: ${CERTS_PATH}
+  #       MY_ADMIN_URL: ${MY_ADMIN_URL}
 
-    env_file:
-      - .env
-    volumes:
-      - wordpress:/var/www/html
-    ports:
-      - 443:443
-    restart: unless-stopped
-    networks:
-      - net
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - wordpress:/var/www/html
+  #   ports:
+  #     - 443:443
+  #   restart: unless-stopped
+  #   networks:
+  #     - net
   
   mariadb:
     container_name: mariadb
-    build: 
-      context: ./requirements/mariadb
-      args:
-        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-        SQL_NAME: ${SQL_NAME}
-        SQL_USER: ${SQL_USER}
-        SQL_PASSWORD: ${SQL_PASSWORD}
+    build: ./requirements/mariadb
+    # healthcheck:
+    #   test: ["CMD-SHELL", "ls /var/lib/mysql/password_changed && mysqladmin ping -u ${SQL_USER}","-p${SQL_PASSWORD} -h localhost"]
+    #   interval: 5s
+    #   timeout: 3s
+    #   retries: 10
     env_file:
       - .env
     networks:
@@ -37,47 +36,40 @@ services:
       - mariadb:/var/lib/mysql
     restart: unless-stopped
 
-  wordpress:
-    container_name: wordpress
-    build: 
-      context: ./requirements/wordpress
-      args:
-        WP_PATH: ${WP_PATH}
-        WP_LANG: ${WP_LANG}
-        SQL_NAME: ${SQL_NAME}
-        SQL_USER: ${SQL_USER}
-        SQL_PASSWORD: ${SQL_PASSWORD}
-        SQL_HOST: ${SQL_HOST}
-        DOMAIN_NAME: ${DOMAIN_NAME}
-        WP_TITLE: ${WP_TITLE}
-        WP_ADMIN_USER: ${WP_ADMIN_USER}
-        WP_ADMIN_PASS: ${WP_ADMIN_PASS}
-        WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
-        WP_USERNAME: ${WP_USERNAME}
-        WP_EMAIL: ${WP_EMAIL}
-        WP_USERPASS: ${WP_USERPASS}
-    volumes:
-      - wordpress:/var/www/html
-    env_file:
-      - .env
-    networks:
-      - net
-    depends_on:
-      - mariadb
-    restart: unless-stopped
+  # wordpress:
+  #   container_name: wordpress
+  #   build: 
+  #     context: ./requirements/wordpress
+  #     args:
+  #       WP_PATH: ${WP_PATH}
+  #       WP_LANG: ${WP_LANG}
+  #       SQL_NAME: ${SQL_NAME}
+  #       SQL_USER: ${SQL_USER}
+  #       SQL_PASSWORD: ${SQL_PASSWORD}
+  #       SQL_HOST: ${SQL_HOST}
+  #   volumes:
+  #     - wordpress:/var/www/html
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - net
+    # depends_on:
+    #   mariadb: 
+    #     condition: service_healthy
+    # restart: unless-stopped
   
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    restart: unless-stopped
-    environment:
-      PMA_HOST: ${SQL_HOST}
-      PMA_PORT: ${SQL_PORT}
-      PMA_ABSOLUTE_URI: "/myadmin/"
-    depends_on:
-      - mariadb
-    networks:
-      - net
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: phpmyadmin
+  #   restart: unless-stopped
+  #   environment:
+  #     PMA_HOST: ${SQL_HOST}
+  #     PMA_PORT: ${SQL_PORT}
+  #     PMA_ABSOLUTE_URI: "/myadmin/"
+  #   depends_on:
+  #     - mariadb
+  #   networks:
+  #     - net
 
 volumes:
   wordpress:
