@@ -11,60 +11,60 @@
     project_dir: "/home/{{user}}"
 
   tasks:
-    # - name: install lsof
-    #   apt:
-    #     name: lsof
-    #     state: present
-    #     update_cache: yes
+    - name: install lsof
+      apt:
+        name: lsof
+        state: present
+        update_cache: yes
 
-    # - name: install docker
-    #   apt:
-    #     name: "{{ docker_packages }}"
-    #     state: present
-    #     update_cache: yes
+    - name: install docker
+      apt:
+        name: "{{ docker_packages }}"
+        state: present
+        update_cache: yes
 
-    # - name: Create keyrings directory
-    #   file:
-    #     path: /etc/apt/keyrings
-    #     state: directory
-    #     mode: "0755"
+    - name: Create keyrings directory
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: "0755"
     
-    # - name: Download Docker GPG key
-    #   get_url:
-    #     url: https://download.docker.com/linux/debian/gpg
-    #     dest: /etc/apt/keyrings/docker.gpg
-    #     mode: "0644"
+    - name: Download Docker GPG key
+      get_url:
+        url: https://download.docker.com/linux/debian/gpg
+        dest: /etc/apt/keyrings/docker.gpg
+        mode: "0644"
     
-    # - name: Add Docker repository (Debian)
-    #   apt_repository:
-    #     repo: >
-    #       deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg]
-    #       https://download.docker.com/linux/debian
-    #       bookworm stable
-    #     state: present
+    - name: Add Docker repository (Debian)
+      apt_repository:
+        repo: >
+          deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg]
+          https://download.docker.com/linux/debian
+          bookworm stable
+        state: present
 
-    # - name: Install Docker and Docker Compose
-    #   apt:
-    #     name:
-    #       - docker-ce
-    #       - docker-ce-cli
-    #       - containerd.io
-    #       - docker-buildx-plugin
-    #       - docker-compose-plugin
-    #     state: present
-    #     update_cache: yes
+    - name: Install Docker and Docker Compose
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+        update_cache: yes
 
-    # - name: Ensure Docker service is running
-    #   service:
-    #     name: docker
-    #     state: started
-    #     enabled: yes
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
 
-    # - name: Add user to docker group
-      # user:
-      #   name: "{{ ansible_user }}"
-      #   groups: docker
-      #   append: yes
+    - name: Add user to docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
 
     - name: Copy the project into the vm
       copy: 
