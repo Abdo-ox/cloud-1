@@ -1,0 +1,32 @@
+- name: Install Nginx on webservers
+  hosts: inception
+  become: yes
+  vars:
+    docker_packages:
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    user: admin
+    project_dir: "/opt/app"
+
+  roles:
+    # - docker
+    - copy project configs
+    - db
+  # tasks:
+
+  #   - name: Copy the project into the vm
+  #     copy: 
+  #       src: ./inception
+  #       dest: "{{project_dir}}"
+  #       owner: admin
+  #       group: admin
+  #       mode: '777'
+  #     notify: Run the project
+
+  # handlers:
+  #   - name: Run the project
+  #     community.docker.docker_compose_v2:
+  #       project_src: "{{project_dir}}/inception"        
+  #       state: present

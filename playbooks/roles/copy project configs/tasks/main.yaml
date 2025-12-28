@@ -1,0 +1,16 @@
+
+- name: Ensure app directory exists
+  file:
+    path: "{{project_dir}}"
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Copy the project into the vm
+  copy: 
+    src: "./src/"
+    dest: "{{project_dir}}"
+    owner: root
+    group: root
+    mode: '755'

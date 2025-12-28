@@ -1,0 +1,13 @@
+- name: copy mariadb files
+  copy:
+    src: "./mariadb"
+    dest: "{{project_dir}}"
+    owner: root
+    group: root
+    mode: '755'
+
+- name: Start database
+  community.docker.docker_compose_v2:
+    project_src: "{{project_dir}}"
+    services:
+      - mariadb

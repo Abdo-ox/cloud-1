@@ -1,10 +1,11 @@
 services:
   nginx:
     depends_on:
-      - wordpress
+      wordpress:
+        condition: service_healthy
     container_name: nginx
     build: 
-      context: ./requirements/nginx
+      context: ./nginx
       args:
         DOMAIN_NAME: ${DOMAIN_NAME}
         CERTS_PATH: ${CERTS_PATH}
@@ -22,7 +23,7 @@ services:
   
   mariadb:
     container_name: mariadb
-    build: ./requirements/mariadb
+    build: ./mariadb
     healthcheck:
       test: ["CMD", "mysqladmin", "ping","-u", "${SQL_USER}", "-p${SQL_PASSWORD}", "-h", "localhost"]
       interval: 5s
@@ -39,7 +40,7 @@ services:
   wordpress:
     container_name: wordpress
     build: 
-      context: ./requirements/wordpress
+      context: ./wordpress
       args:
         WP_PATH: ${WP_PATH}
         WP_LANG: ${WP_LANG}
@@ -56,6 +57,11 @@ services:
     depends_on:
       mariadb: 
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /ready ]"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
     restart: unless-stopped
   
   phpmyadmin:
