@@ -1,0 +1,13 @@
+- name: copy nginx files
+  copy:
+    src: "./nginx"
+    dest: "{{project_dir}}"
+    mode: '755'
+    owner: root
+    group: root
+
+- name: run nginx
+  community.docker.docker_compose_v2:
+    project_src: "{{project_dir}}"
+    services:
+      - nginx

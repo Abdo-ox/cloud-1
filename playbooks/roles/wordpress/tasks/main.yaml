@@ -1,0 +1,13 @@
+- name: copy the wordpress files
+  copy:
+    src: ./wordpress
+    dest: "{{project_dir}}"
+    mode: '755'
+    owner: root
+    group: root
+
+- name: run wordpress
+  community.docker.docker_compose_v2:
+    project_src: "{{project_dir}}"
+    services: 
+      - wordpress

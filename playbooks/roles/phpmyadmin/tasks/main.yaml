@@ -1,0 +1,5 @@
+- name: run php my admin
+  community.docker.docker_compose_v2:
+    project_src: "{{project_dir}}"
+    services:
+      - phpmyadmin
