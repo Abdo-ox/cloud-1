@@ -2,12 +2,7 @@
   hosts: inception
   become: yes
   vars:
-    docker_packages:
-      - ca-certificates
-      - curl
-      - gnupg
-      - lsb-release
-    user: admin
+    user: ubuntu
     project_dir: "/opt/app"
 
   roles:
