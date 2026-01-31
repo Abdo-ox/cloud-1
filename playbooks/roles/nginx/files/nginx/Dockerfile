@@ -4,8 +4,6 @@ ARG CERTS_PATH
 ARG DOMAIN_NAME
 ARG MY_ADMIN_URL
 
-RUN echo "$CERTS_PATH" && exit
-
 RUN apt-get update -y && \
     apt-get install nginx -y && \
     apt-get install openssl -y

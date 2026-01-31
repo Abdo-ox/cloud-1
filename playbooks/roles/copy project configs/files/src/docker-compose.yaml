@@ -4,13 +4,12 @@ services:
       wordpress:
         condition: service_healthy
     container_name: nginx
-    build: 
+    build:
       context: ./nginx
       args:
         DOMAIN_NAME: ${DOMAIN_NAME}
         CERTS_PATH: ${CERTS_PATH}
         MY_ADMIN_URL: ${MY_ADMIN_URL}
-
     env_file:
       - .env
     volumes:
