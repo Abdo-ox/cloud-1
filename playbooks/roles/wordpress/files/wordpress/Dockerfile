@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     apt-transport-https \
     software-properties-common \
     && rm -rf /var/lib/apt/lists/*
+    
 RUN curl -fsSL https://packages.sury.org/php/apt.gpg | gpg --dearmor -o /usr/share/keyrings/php.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" \
        > /etc/apt/sources.list.d/php.list

@@ -6,7 +6,8 @@ ARG MY_ADMIN_URL
 
 RUN apt-get update -y && \
     apt-get install nginx -y && \
-    apt-get install openssl -y
+    apt-get install openssl -y && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY ./conf/nginx.conf /etc/nginx
 

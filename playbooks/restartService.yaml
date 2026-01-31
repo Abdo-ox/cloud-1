@@ -1,0 +1,15 @@
+- name: Restart selected services
+  hosts: inception
+  become: yes
+  vars:
+    user: ubuntu
+    project_dir: "/opt/app"
+    service_name: nginx
+
+  tasks:
+    - name: run {{service_name}}
+      community.docker.docker_compose_v2:
+        project_src: "{{project_dir}}"
+        state : restarted
+        services:
+          - "{{service_name}}"
